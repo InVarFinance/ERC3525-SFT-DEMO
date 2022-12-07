@@ -21,7 +21,7 @@ contract RegenerativeNFT is
     using SlotLibrary for SlotLibrary.AssetData;
 
     uint256 internal constant APR = 30;
-    uint256 constant MATURITY = 600;
+    uint256 constant public MATURITY = 600;
 
     mapping(address => uint256) private _slotOwner;
     mapping(uint256 => TokenLibrary.TimeData) private _allTimeData;
@@ -100,12 +100,12 @@ contract RegenerativeNFT is
 
     /* ==================== TOKEN ==================== */
 
-    function getTimeSnapshot(uint256 tokenId_)
+    function getTimeSnapshot(uint256 _tokenId)
         external
         view
         returns (TokenLibrary.TimeData memory)
     {
-        TokenLibrary.TimeData memory timeData = _allTimeData[tokenId_];
+        TokenLibrary.TimeData memory timeData = _allTimeData[_tokenId];
         if (timeData.mintTime == 0) revert InvalidToken();
         return timeData;
     }
@@ -123,27 +123,27 @@ contract RegenerativeNFT is
     }
 
     function split(
-        address owner_,
-        uint256 tokenId_,
-        uint256 value_
+        address _owner,
+        uint256 _tokenId,
+        uint256 _value
     ) external onlyLogic returns (uint256) {
-        if (!_isApprovedOrOwner(owner_, tokenId_)) revert NotOwnerNorApproved();
-        uint256 splittedTokenId = transferFrom(tokenId_, owner_, value_);
-        _allTimeData[splittedTokenId].split(_allTimeData[tokenId_]);
+        if (!_isApprovedOrOwner(_owner, _tokenId)) revert NotOwnerNorApproved();
+        uint256 splittedTokenId = transferFrom(_tokenId, _owner, _value);
+        _allTimeData[splittedTokenId].split(_allTimeData[_tokenId]);
         return splittedTokenId;
     }
 
     function merge(
         address _minter,
-        uint256 sourceId_,
-        uint256 targetId_
+        uint256 _sourceId,
+        uint256 _targetId
     ) external onlyLogic returns (uint256) {
-        if (!(_isApprovedOrOwner(_minter, sourceId_) &&
-                _isApprovedOrOwner(_minter, targetId_))) revert NotOwnerNorApproved();
-        uint256 value = balanceOf(sourceId_);
-        transferFrom(sourceId_, targetId_, value);
-        _allTimeData[targetId_].merge(_allTimeData[sourceId_]);
-        _burn(sourceId_);
+        if (!(_isApprovedOrOwner(_minter, _sourceId) &&
+                _isApprovedOrOwner(_minter, _targetId))) revert NotOwnerNorApproved();
+        uint256 value = balanceOf(_sourceId);
+        transferFrom(_sourceId, _targetId, value);
+        _allTimeData[_targetId].merge(_allTimeData[_sourceId]);
+        _burn(_sourceId);
         return value;
     }
 
@@ -152,7 +152,7 @@ contract RegenerativeNFT is
         onlyLogic
         returns (uint256, uint256)
     {
-        if (!_isApprovedOrOwner(_msgSender(), _tokenId)) revert NotOwnerNorApproved();
+        if (!_isApprovedOrOwner(_owner, _tokenId)) revert NotOwnerNorApproved();
         TokenLibrary.TimeData storage timeData = _allTimeData[_tokenId];
         if (timeData.mintTime + MATURITY > block.timestamp)
             revert NotRedeemable();
@@ -209,6 +209,7 @@ contract RegenerativeNFT is
                 IRLogic.Operation.Merge
             );
         }
+        
         slot_;
         value_;
     }

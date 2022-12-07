@@ -30,11 +30,12 @@ interface IRNFT is IERC3525SlotEnumerable {
 
     /**
      * @notice create a slot of ERC-3525
+     * @param _owner The owner of the slot
+     * @param _category The RWA category
+     * @param _rwaName The RWA name
+     * @param _rwaValue The RWA tokenization value
      */
-    function createSlot(address _owner,
-        string memory _category,
-        string memory _rwaName,
-        uint256 _rwaValue) external returns (uint256);
+    function createSlot(address _owner, string memory _category, string memory _rwaName, uint256 _rwaValue) external returns (uint256);
 
     /* ==================== TOKEN ==================== */
 

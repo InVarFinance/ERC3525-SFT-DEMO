@@ -4,16 +4,18 @@ pragma solidity ^0.8.0;
 
 import { IERC20 } from "openzeppelin-contracts/interfaces/IERC20.sol";
 
-error AlreadyClaimed();
-error NullAddress();
-error InsufficientAllowance(uint256 allowance, uint256 balance);
-error InsufficientBalance(uint256 balance, uint256 transferAmount);
 
-contract ERC20 is IERC20 {
+contract TestERC20 is IERC20 {
+    error AlreadyClaimed();
+    error NullAddress();
+    error InsufficientAllowance(uint256 allowance, uint256 balance);
+    error InsufficientBalance(uint256 balance, uint256 transferAmount);
+
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private constant _totalSupply = 1_000_000_000 * 1e6 wei;
+    uint256 constant CLAIM_AMOUNT = 100 * 1e6 wei;
 
     string private _name;
     string private _symbol;
@@ -148,6 +150,6 @@ contract ERC20 is IERC20 {
     function claim() external {
         if (claimed[msg.sender]) revert AlreadyClaimed();
         claimed[msg.sender] = true;
-        _transfer(address(this), msg.sender, 100 * 1e6);
+        _transfer(address(this), msg .sender, CLAIM_AMOUNT);
     }
 }

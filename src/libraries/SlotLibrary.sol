@@ -52,7 +52,6 @@ library SlotLibrary {
      */
     function mint(AssetData storage self, uint256 value) internal {
         if (self.mintableValue < value) revert ExceedMintableValue();
-        if (msg.sender != self.originator) revert NotOriginator();
         self.mintableValue -= value;
     }
 

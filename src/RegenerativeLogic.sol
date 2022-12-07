@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import { OwnableUpgradeable } from "openzeppelin-contracts-upgradeable/access/OwnableUpgradeable.sol";
-import { IERC20Upgradeable } from "openzeppelin-contracts-upgradeable/interfaces/IERC20Upgradeable.sol";
+import { IERC20 } from "openzeppelin-contracts/interfaces/IERC20.sol";
 import { UUPSUpgradeable } from "openzeppelin-contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 import { IRNFT } from "./interfaces/IRNFT.sol";
@@ -16,9 +16,9 @@ contract RegenerativeLogic is
     uint256 constant MIN_MINT_VALUE = 1 * 1e6 wei;
 
     IRNFT irnft;
-    IERC20Upgradeable erc20;
+    IERC20 erc20;
 
-    function initialize(IRNFT _irnft, IERC20Upgradeable _currency) external initializer {
+    function initialize(IRNFT _irnft, IERC20 _currency) external initializer {
         __Ownable_init();
         irnft = _irnft;
         erc20 = _currency;
