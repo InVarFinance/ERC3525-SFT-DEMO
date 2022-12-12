@@ -25,24 +25,19 @@ contract RegenerativeNFT is
 
     mapping(address => uint256) private _slotOwner;
     mapping(uint256 => TokenLibrary.TimeData) private _allTimeData;
-    mapping(address => SlotLibrary.AssetData) private _allAssetData;
+    mapping(uint256 => SlotLibrary.AssetData) private _allAssetData;
 
-    string private baseURI;
     address public logic;
 
     function initialize(
         string memory _name,
         string memory _symbol,
         uint8 _decimals,
-        string memory _baseuri
+        address _metadataDescriptor
     ) external initializer {
         __ERC3525_init(_name, _symbol, _decimals);
         __Ownable_init();
-        baseURI = _baseuri;
-    }
-
-    function setBaseURI(string memory _baseuri) external onlyOwner {
-        baseURI = _baseuri;
+        _setMetadataDescriptor(_metadataDescriptor);
     }
 
     function setLogic(address _logic) external onlyOwner {
@@ -64,13 +59,13 @@ contract RegenerativeNFT is
         return slot;
     }
 
-    function getAssetSnapshot(address _owner)
+    function getAssetSnapshot(uint256 _slot)
         external
         view
         returns (SlotLibrary.AssetData memory)
     {
-        SlotLibrary.AssetData memory assetData = _allAssetData[_owner];
-        if (assetData.originator != _owner) revert InvalidSlot();
+        SlotLibrary.AssetData memory assetData = _allAssetData[_slot];
+        if (assetData.originator == address(0)) revert InvalidSlot();
         return assetData;
     }
 
@@ -82,18 +77,18 @@ contract RegenerativeNFT is
     ) external onlyLogic returns (uint256) {
         uint256 slot = _slotOwner[_owner];
 
-        _allAssetData[_owner].createSlot(
-            _owner,
-            _category,
-            _rwaName,
-            _rwaValue
-        );
-
         if (slot == 0) {
             slot = slotCount() + 1;
             _createSlot(slot);
             _slotOwner[_owner] = slot;
         }
+
+        _allAssetData[slot].createSlot(
+            _owner,
+            _category,
+            _rwaName,
+            _rwaValue
+        );
 
         return slot;
     }
@@ -116,7 +111,7 @@ contract RegenerativeNFT is
         returns (uint256)
     {
         uint256 slot = slotByOwner(_minter);
-        _allAssetData[_minter].mint(_value);
+        _allAssetData[slot].mint(_value);
         uint256 tokenId = _mint(_minter, slot, _value);
         _allTimeData[tokenId].mint();
         return tokenId;
@@ -160,7 +155,8 @@ contract RegenerativeNFT is
         uint256 principal = balanceOf(_tokenId);
         uint256 interest = timeData.redeem(principal, APR);
         _burn(_tokenId);
-        _allAssetData[_owner].redeem(principal);
+        uint256 slot = slotByOwner(_owner);
+        _allAssetData[slot].redeem(principal);
         return (principal, interest);
     }
 
@@ -177,7 +173,7 @@ contract RegenerativeNFT is
     function reset(address _owner) external onlyLogic {
         uint256 slot = slotByOwner(_owner);
 
-        _allAssetData[_owner].reset();
+        _allAssetData[slot].reset();
         uint256 length = tokenSupplyInSlot(slot);
         for (uint256 i = 0; i < length; i++) {
             uint256 tokenId = tokenInSlotByIndex(slot, i);
@@ -212,10 +208,6 @@ contract RegenerativeNFT is
         
         slot_;
         value_;
-    }
-
-    function _baseURI() internal view virtual override returns (string memory) {
-        return baseURI;
     }
 
     function _authorizeUpgrade(address newImplementation)

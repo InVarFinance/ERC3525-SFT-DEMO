@@ -9,6 +9,13 @@ library StringConvertor {
     using Strings for uint256;
 
     /**
+     * @dev Converts a `uint256` to its ASCII `string` representation.
+     */
+    function toString(uint256 value) internal pure returns (string memory) {
+        return value.toString();
+    }
+
+    /**
      * @dev Converts a `uint256` to its decimals representation according to the specified decimals.
      */
     function toDecimalsString(uint256 value, uint8 decimals) 

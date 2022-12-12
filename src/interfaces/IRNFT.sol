@@ -1,11 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../ERC3525/extensions/IERC3525SlotEnumerable.sol";
+import {IERC3525SlotEnumerable} from "../ERC3525/extensions/IERC3525SlotEnumerable.sol";
+import {IERC3525Metadata} from "../ERC3525/extensions/IERC3525Metadata.sol";
+
 import "../libraries/SlotLibrary.sol";
 import "../libraries/TokenLibrary.sol";
 
-interface IRNFT is IERC3525SlotEnumerable {
+interface IRNFT is IERC3525Metadata, IERC3525SlotEnumerable {
     error NotLogic();
     error NotOwnerNorApproved();
     error NotRedeemable();
@@ -23,10 +25,10 @@ interface IRNFT is IERC3525SlotEnumerable {
 
     /**
      * @notice Get the Snapshot of the asset
-     * @param _owner The owner of the slot
+     * @param _slot The owner of the slot
      * @return The asset data for the given slot 
      */
-    function getAssetSnapshot(address _owner) external view returns (SlotLibrary.AssetData memory);
+    function getAssetSnapshot(uint256 _slot) external view returns (SlotLibrary.AssetData memory);
 
     /**
      * @notice create a slot of ERC-3525

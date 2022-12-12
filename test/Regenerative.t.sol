@@ -5,6 +5,7 @@ import "forge-std/Test.sol";
 import { TestERC20 } from "../src/TestERC20.sol";
 import { RegenerativeNFT } from "../src/RegenerativeNFT.sol";
 import { RegenerativeLogic } from "../src/RegenerativeLogic.sol";
+import { RegenerativeMetadataDescriptor } from "../src/RegenerativeMetadataDescriptor.sol";
 
 import { IRNFT } from "../src/interfaces/IRNFT.sol";
 import { IRLogic } from "../src/interfaces/IRLogic.sol";
@@ -16,6 +17,7 @@ contract RegenerativeTest is Test {
     TestERC20 erc20;
     RegenerativeNFT nft;
     RegenerativeLogic logic;
+    RegenerativeMetadataDescriptor metadataDescriptor;
 
     address alice = makeAddr("alice");
     address bob = makeAddr("bob");
@@ -23,9 +25,10 @@ contract RegenerativeTest is Test {
     uint256 constant internal CLAIM_AMOUNT = 100 * 1e6 wei;
 
     function setUp() public {
+        metadataDescriptor = new RegenerativeMetadataDescriptor();
         erc20 = new TestERC20("Test USDC", "TUSD", 6);
         nft = new RegenerativeNFT();
-        nft.initialize("RWANFT", "RNFT", uint8(erc20.decimals()), "");
+        nft.initialize("RWANFT", "RNFT", uint8(erc20.decimals()), address(metadataDescriptor));
         logic = new RegenerativeLogic();
         nft.setLogic(address(logic));
         logic.initialize(nft, erc20);
@@ -244,7 +247,7 @@ contract RegenerativeTest is Test {
         vm.stopPrank();
 
         vm.expectRevert(IRNFT.InvalidSlot.selector);
-        nft.getAssetSnapshot(alice);
+        nft.getAssetSnapshot(1);
         vm.expectRevert(IRNFT.InvalidToken.selector);
         nft.getTimeSnapshot(1);
         vm.expectRevert("ERC3525: invalid token ID");
