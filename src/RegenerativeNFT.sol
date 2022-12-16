@@ -138,7 +138,6 @@ contract RegenerativeNFT is
         uint256 value = balanceOf(_sourceId);
         transferFrom(_sourceId, _targetId, value);
         _allTimeData[_targetId].merge(_allTimeData[_sourceId]);
-        _burn(_sourceId);
         return value;
     }
 
@@ -206,6 +205,25 @@ contract RegenerativeNFT is
             );
         }
         
+        slot_;
+        value_;
+    }
+
+    function _afterValueTransfer(
+        address from_,
+        address to_,
+        uint256 fromTokenId_,
+        uint256 toTokenId_,
+        uint256 slot_,
+        uint256 value_
+    ) internal virtual override {
+        if (balanceOf(fromTokenId_) == 0) {
+            _burn(fromTokenId_);
+        }
+
+        from_;
+        to_;
+        toTokenId_;
         slot_;
         value_;
     }
