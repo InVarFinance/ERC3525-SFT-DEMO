@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IERC3525SlotEnumerable} from "../ERC3525/extensions/IERC3525SlotEnumerable.sol";
-import {IERC3525Metadata} from "../ERC3525/extensions/IERC3525Metadata.sol";
+import {IERC3525SlotEnumerableUpgradeable} from "erc-3525/contracts/extensions/IERC3525SlotEnumerableUpgradeable.sol";
+import {IERC3525MetadataUpgradeable} from "erc-3525/contracts/extensions/IERC3525MetadataUpgradeable.sol";
 
 import "../libraries/SlotLibrary.sol";
 import "../libraries/TokenLibrary.sol";
 
-interface IRNFT is IERC3525Metadata, IERC3525SlotEnumerable {
+interface IRNFT is IERC3525MetadataUpgradeable, IERC3525SlotEnumerableUpgradeable {
     error NotLogic();
     error NotOwnerNorApproved();
     error NotRedeemable();

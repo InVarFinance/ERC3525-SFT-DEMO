@@ -4,14 +4,12 @@ pragma solidity ^0.8.0;
 
 import { IRNFT } from "./interfaces/IRNFT.sol";
 import { SlotLibrary } from "./libraries/SlotLibrary.sol";
-import { IERC3525MetadataDescriptor } from "./ERC3525/periphery/interface/IERC3525MetadataDescriptor.sol";
-import { Base64Upgradeable } from "openzeppelin-contracts-upgradeable/utils/Base64Upgradeable.sol";
-import { StringsUpgradeable } from "openzeppelin-contracts-upgradeable/utils/StringsUpgradeable.sol";
-import { StringConvertor } from "./ERC3525/utils/StringConvertor.sol";
+import { IERC3525MetadataDescriptor } from "erc-3525/contracts/periphery/interface/IERC3525MetadataDescriptor.sol";
+import { Base64 } from "openzeppelin-contracts/utils/Base64.sol";
+import { Strings } from "openzeppelin-contracts/utils/Strings.sol";
 
 contract RegenerativeMetadataDescriptor is IERC3525MetadataDescriptor {
-    using StringConvertor for uint256;
-    using StringConvertor for bytes;
+    using Strings for uint256;
 
     string IMAGE_URL = "https://ipfs.filebase.io/ipfs/QmbNg29bQpr4wC5qDoCzt8uBYKUc5U15uvuarvydLwsTMK";
 
@@ -22,7 +20,7 @@ contract RegenerativeMetadataDescriptor is IERC3525MetadataDescriptor {
             abi.encodePacked(
             /* solhint-disable */
             'data:application/json;base64,',
-            Base64Upgradeable.encode(
+            Base64.encode(
                 abi.encodePacked(
                 '{"name":"', 
                 irnft.name(),
@@ -46,7 +44,7 @@ contract RegenerativeMetadataDescriptor is IERC3525MetadataDescriptor {
                 abi.encodePacked(
                 /* solhint-disable */
                 'data:application/json;base64,',
-                Base64Upgradeable.encode(
+                Base64.encode(
                     abi.encodePacked(
                     '{"name":"', 
                     _slotName(slot_),
@@ -69,7 +67,7 @@ contract RegenerativeMetadataDescriptor is IERC3525MetadataDescriptor {
         string(
             abi.encodePacked(
             "data:application/json;base64,",
-            Base64Upgradeable.encode(
+            Base64.encode(
                 abi.encodePacked(
                 /* solhint-disable */
                 '{"name":"',

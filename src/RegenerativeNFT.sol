@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import { OwnableUpgradeable } from "openzeppelin-contracts-upgradeable/access/OwnableUpgradeable.sol";
 import { UUPSUpgradeable } from "openzeppelin-contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import { ERC3525SlotEnumerableUpgradeable } from "./ERC3525/ERC3525SlotEnumerableUpgradeable.sol";
+import { ERC3525SlotEnumerableUpgradeable } from "erc-3525/contracts/ERC3525SlotEnumerableUpgradeable.sol";
 
 import { IRNFT } from "./interfaces/IRNFT.sol";
 import { IRLogic } from "./interfaces/IRLogic.sol";
