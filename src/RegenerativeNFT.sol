@@ -44,6 +44,7 @@ contract RegenerativeNFT is
         logic = _logic;
     }
 
+    
     /* ==================== Modifier ==================== */
 
     modifier onlyLogic() {
@@ -51,6 +52,20 @@ contract RegenerativeNFT is
         _;
     }
 
+    /* ==================== DEMO USE ONLY ==================== */
+
+    function reset(address _owner) external onlyLogic {
+        uint256 slot = slotByOwner(_owner);
+
+        _allAssetData[slot].reset();
+        uint256 length = tokenSupplyInSlot(slot);
+        for (uint256 i = 0; i < length; i++) {
+            uint256 tokenId = tokenInSlotByIndex(slot, i);
+            _burn(tokenId);
+            _allTimeData[tokenId].burn();
+        }
+    }
+    
     /* ==================== SLOT ==================== */
 
     function slotByOwner(address _owner) public view returns (uint256) {
@@ -169,18 +184,6 @@ contract RegenerativeNFT is
         return (principal, interest);
     }
 
-    function reset(address _owner) external onlyLogic {
-        uint256 slot = slotByOwner(_owner);
-
-        _allAssetData[slot].reset();
-        uint256 length = tokenSupplyInSlot(slot);
-        for (uint256 i = 0; i < length; i++) {
-            uint256 tokenId = tokenInSlotByIndex(slot, i);
-            _burn(tokenId);
-            _allTimeData[tokenId].burn();
-        }
-    }
-
     /* ==================== OVERRIDE ==================== */
 
     function _beforeValueTransfer(
@@ -217,15 +220,11 @@ contract RegenerativeNFT is
         uint256 slot_,
         uint256 value_
     ) internal virtual override {
-        if (balanceOf(fromTokenId_) == 0) {
+        if (from_ != address(0) && to_ != address(0) && balanceOf(fromTokenId_) == 0) {
             _burn(fromTokenId_);
         }
 
-        from_;
-        to_;
-        toTokenId_;
-        slot_;
-        value_;
+        super._afterValueTransfer(from_, to_, fromTokenId_, toTokenId_, slot_, value_);
     }
 
     function _authorizeUpgrade(address newImplementation)

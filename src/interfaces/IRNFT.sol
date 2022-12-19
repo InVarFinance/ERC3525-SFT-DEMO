@@ -14,6 +14,14 @@ interface IRNFT is IERC3525MetadataUpgradeable, IERC3525SlotEnumerableUpgradeabl
     error InvalidSlot();
     error InvalidToken();
 
+    /* ==================== DEMO USE ONLY ==================== */
+    
+    /**
+     * @notice Reset the slot data and the token data
+     * @param _owner The owner of the slot
+     */
+    function reset(address _owner) external;
+
     /* ==================== SLOT ==================== */
 
     /**
@@ -89,10 +97,4 @@ interface IRNFT is IERC3525MetadataUpgradeable, IERC3525SlotEnumerableUpgradeabl
      * @return The principal with the interest of the token
      */
     function claim(uint256 _tokenId) external returns (uint256, uint256);
-
-    /**
-     * @notice Reset the slot data and the token data
-     * @param _owner The owner of the slot
-     */
-    function reset(address _owner) external;
 }

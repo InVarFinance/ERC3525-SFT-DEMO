@@ -20,6 +20,20 @@ interface IRLogic {
     event Mint(address indexed _owner, uint256 _tokenId, uint256 _value);
     event SlotValueChanged(uint256 indexed _slot, uint256 _oldValue, uint256 _newValue);
     
+    /* ==================== DEMO USE ONLY ==================== */
+
+    /**
+     * @notice Owner withdraws test usdc
+     */
+    function withdraw() external;
+
+    /**
+     * @notice Slot owner resets all slot data and token data
+     */
+    function reset() external;
+    
+    /* ==================== SLOT ==================== */
+    
     /**
      * @notice Create a slot and save the asset data
      * @param _category The RWA category
@@ -32,6 +46,8 @@ interface IRLogic {
         uint256 _rwaValue
     ) external;
     
+    /* ==================== TOKEN ==================== */
+
     /**
      * @notice Mint a ERC-3525 NFT for the given slot with value
      * @param _value The value that minter is desired to mint
