@@ -48,6 +48,15 @@ contract RegenerativeLogic is
 
     /* ==================== TOKEN ==================== */
 
+    function getTokensByOwner(address owner) external view returns (uint256[] memory) {
+        uint256 balance = irnft.balanceOf(owner);
+        uint256[] memory tokenIds = new uint256[](balance);
+        for (uint256 i = 0; i < balance; i++) {
+            tokenIds[i] = irnft.tokenOfOwnerByIndex(owner, i);
+        }
+        return tokenIds;
+    }
+
     function mint(uint256 _value) external {
         address owner = _msgSender();
         if (MIN_MINT_VALUE > _value) revert UnderMinimumValue();

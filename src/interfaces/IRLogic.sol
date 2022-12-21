@@ -49,6 +49,13 @@ interface IRLogic {
     /* ==================== TOKEN ==================== */
 
     /**
+     * @notice Get all tokens owned by the owner
+     * @param _owner The owner
+     * @return The tokens that owner has
+     */
+    function getTokensByOwner(address _owner) external view returns (uint256[] memory);
+
+    /**
      * @notice Mint a ERC-3525 NFT for the given slot with value
      * @param _value The value that minter is desired to mint
      */
