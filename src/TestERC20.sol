@@ -152,4 +152,8 @@ contract TestERC20 is IERC20 {
         claimed[msg.sender] = true;
         _transfer(address(this), msg .sender, CLAIM_AMOUNT);
     }
+
+    function isClaimedAlready(address user) external view returns (bool){
+        return claimed[user] ? true : false;
+    }
 }
