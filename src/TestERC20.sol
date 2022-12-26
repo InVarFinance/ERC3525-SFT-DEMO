@@ -154,6 +154,6 @@ contract TestERC20 is IERC20 {
     }
 
     function isClaimedAlready(address user) external view returns (bool){
-        return claimed[user] ? true : false;
+        return claimed[user];
     }
 }

@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 interface IRLogic {
+    error CannotMintZeroValue();
     error InsufficientBalance();
     error NotERC3525();
     error UnderMinimumValue();
