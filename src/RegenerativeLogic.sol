@@ -13,7 +13,7 @@ contract RegenerativeLogic is
     OwnableUpgradeable,
     UUPSUpgradeable
 {
-    uint256 constant MIN_MINT_VALUE = 1 * 1e6 wei;
+    uint256 constant MIN_MINT_VALUE = 1 * 1e5 wei;
 
     IRNFT irnft;
     IERC20 erc20;
@@ -48,11 +48,11 @@ contract RegenerativeLogic is
 
     /* ==================== TOKEN ==================== */
 
-    function getTokensByOwner(address owner) external view returns (uint256[] memory) {
-        uint256 balance = irnft.balanceOf(owner);
+    function getTokensByOwner(address _owner) external view returns (uint256[] memory) {
+        uint256 balance = irnft.balanceOf(_owner);
         uint256[] memory tokenIds = new uint256[](balance);
         for (uint256 i = 0; i < balance; i++) {
-            tokenIds[i] = irnft.tokenOfOwnerByIndex(owner, i);
+            tokenIds[i] = irnft.tokenOfOwnerByIndex(_owner, i);
         }
         return tokenIds;
     }
@@ -68,52 +68,54 @@ contract RegenerativeLogic is
     /**
      * merge functions
      */
-    function merge(uint256 sourceId_, uint256 targetId_) external {
+    function merge(uint256 _sourceId, uint256 _targetId) external {
         uint256[] memory sourceIds = new uint256[](1);
-        sourceIds[0] = sourceId_;
-        _merge(sourceIds, targetId_);
+        sourceIds[0] = _sourceId;
+        _merge(sourceIds, _targetId);
     }
 
-    function merge(uint256[] memory sourceIds_, uint256 targetId_) external {
-        _merge(sourceIds_, targetId_);
+    function merge(uint256[] memory _sourceIds, uint256 _targetId) external {
+        _merge(_sourceIds, _targetId);
     }
 
-    function _merge(uint256[] memory sourceIds_, uint256 targetId_) internal {
+    function _merge(uint256[] memory _sourceIds, uint256 _targetId) internal {
         address owner = _msgSender();
         // claim the interest of targetId
-        claim(targetId_, Operation.Merge);
-        uint256 length = sourceIds_.length;
+        claim(_targetId, Operation.Merge);
+        uint256 length = _sourceIds.length;
         uint256[] memory values = new uint256[](length);
 
         for (uint256 i = 0; i < length; i++) {
-            values[i] = irnft.merge(owner, sourceIds_[i], targetId_);
+            values[i] = irnft.merge(owner, _sourceIds[i], _targetId);
         }
 
-        emit Merge(owner, targetId_, irnft.balanceOf(targetId_), sourceIds_, values);
+        emit Merge(owner, _targetId, irnft.balanceOf(_targetId), _sourceIds, values);
     }
 
     /**
      * split functions
      */
-    function split(uint256 tokenId_, uint256 value_) external {
+    function split(uint256 _tokenId, uint256 _value) external {
         uint256[] memory values = new uint256[](1);
-        values[0] = value_;
-        _split(tokenId_, values);
+        values[0] = _value;
+        _split(_tokenId, values);
     }
 
-    function split(uint256 tokenId_, uint256[] memory values_) external {
-        _split(tokenId_, values_);
+    function split(uint256 _tokenId, uint256[] memory _values) external {
+        _split(_tokenId, _values);
     }
 
-    function _split(uint256 tokenId_, uint256[] memory values_) internal {
+    function _split(uint256 _tokenId, uint256[] memory _values) internal {
         address owner = _msgSender();
-        claim(tokenId_, Operation.Split);
-        uint256 length = values_.length;
+        claim(_tokenId, Operation.Split);
+        uint256 length = _values.length;
         uint256[] memory splittedTokens = new uint256[](length);
         for (uint256 i = 0; i < length; i++) {
-            splittedTokens[i] = irnft.split(owner, tokenId_, values_[i]);
+            uint256 value = _values[i];
+            if (value == 0) revert CannotMintZeroValue();
+            splittedTokens[i] = irnft.split(owner, _tokenId, _values[i]);
         }
-        emit Split(owner, tokenId_, irnft.balanceOf(tokenId_), splittedTokens, values_);
+        emit Split(owner, _tokenId, irnft.balanceOf(_tokenId), splittedTokens, _values);
     }
 
     /**

@@ -60,7 +60,7 @@ contract RegenerativeNFT is
         _allAssetData[slot].reset();
         uint256 length = tokenSupplyInSlot(slot);
         for (uint256 i = 0; i < length; i++) {
-            uint256 tokenId = tokenInSlotByIndex(slot, i);
+            uint256 tokenId = tokenInSlotByIndex(slot, 0);
             _burn(tokenId);
             _allTimeData[tokenId].burn();
         }
