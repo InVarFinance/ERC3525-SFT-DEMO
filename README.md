@@ -12,7 +12,7 @@
 2. Claim Testnet Tokens, ETH and USDC.
 3. Start to Tokenize Your RWA, and Bring Real Data On-Chain. (Asset Owner Perspective)
 4. Mint Your SFTs, and Try All Functions As Possible. (Investor Perspective)
-- Check Medium to learn more Tutorial : [SFT DEMO on Tokenization](https://medium.com/@invar.finance/tutorial-sft-demo-on-tokenization-8afa965abaf0)
+- Check Tutorial to learn more detail : [SFT DEMO on Tokenization](https://medium.com/@invar.finance/tutorial-sft-demo-on-tokenization-8afa965abaf0)
 
 
 ## Research More
