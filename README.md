@@ -15,7 +15,7 @@
 - Check Tutorial to learn more detail : [SFT DEMO on Tokenization](https://medium.com/@invar.finance/tutorial-sft-demo-on-tokenization-8afa965abaf0)
 
 
-## Research More
+## Research More...
 [<img src="https://img.shields.io/badge/INVAR FINANCE-6D8299?style=for-the-badge&logo=&logoColor=white">](https://invar.finance/)
 [<img src="https://img.shields.io/badge/INVARIA 2222-CAB8FF?style=for-the-badge&logo=&logoColor=white">](https://app.invar.finance/invaria2222)
 [<img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white">](https://twitter.com/InVarFinance)
