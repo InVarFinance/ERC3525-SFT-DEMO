@@ -25,4 +25,4 @@
 [<img src="https://img.shields.io/badge/linktree-39E09B?style=for-the-badge&logo=linktree&logoColor=white">](https://linktr.ee/invarfinance)
 
 
-[<img src="https://img.shields.io/static/v1?label=All Supported by &message=PivoTerra&color=FBCB0A">](https://pivoterra.notion.site/) 
+[<img src="https://img.shields.io/static/v1?label=All Supported by &message=PivoTerra&color=FBCB0A">](https://pivoterra.co/) 
