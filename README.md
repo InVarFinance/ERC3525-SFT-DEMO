@@ -17,7 +17,7 @@
 
 ## Research More...
 [<img src="https://img.shields.io/badge/INVAR FINANCE-6D8299?style=for-the-badge&logo=&logoColor=white">](https://invar.finance/)
-[<img src="https://img.shields.io/badge/INVARIA 2222-CAB8FF?style=for-the-badge&logo=&logoColor=white">](https://app.invar.finance/invaria2222)
+[<img src="https://img.shields.io/badge/INVARIA2222-CAB8FF?style=for-the-badge&logo=&logoColor=white">](https://app.invar.finance/invaria2222)
 [<img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white">](https://twitter.com/InVarFinance)
 [<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white">](https://discord.com/invite/BrzPWYut4p)
 [<img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white">](https://www.youtube.com/channel/UCE6nLXvFjITq0IAsXipnkqQ)
